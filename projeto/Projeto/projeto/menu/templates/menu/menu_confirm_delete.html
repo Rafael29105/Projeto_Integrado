@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Excluir Ementa</title>
+</head>
+<body>
+<h2>Tem certeza de que deseja excluir o item "{{ item.name }}"?</h2>
+
+<!-- Formulário para confirmação de exclusão -->
+<form method="post">
+    <!-- Token CSRF para segurança -->
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Confirmar Exclusão</button>
+    <a href="{% url 'menu_list' %}" class="btn btn-secondary">Cancelar</a>
+</form>
+</body>
+</html>
