@@ -1,0 +1,14 @@
+login admin:
+username: nuno0
+password: 9%qJ48090
+
+login cliente:
+username: Duarte
+password: Rafa2001
+username: Diogo
+password: Diogo20..
+
+login gerente:
+username: Rafa
+password: Rafael1820
+
