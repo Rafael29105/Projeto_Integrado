@@ -15,4 +15,4 @@
 (se der tempo)
 - Colocar a página principal mais apelativa ao público
 - ~~Adicionar um carrinho para colocar os pedidos do cliente~~
-- Adicionar os métodos de pagamento
+- ~~Adicionar os métodos de pagamento~~
