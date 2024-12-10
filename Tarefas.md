@@ -9,10 +9,10 @@
 ##09/12/2024
 
 - Colocar Imagens
-- Colocar Botões funcionais
-- Colocar o CRUD funcional
+- ~~Colocar Botões funcionais~~
+- ~~Colocar o CRUD funcional~~
 
 (se der tempo)
 - Colocar a página principal mais apelativa ao público
-- Adicionar um carrinho para colocar os pedidos do cliente
+- ~~Adicionar um carrinho para colocar os pedidos do cliente~~
 - Adicionar os métodos de pagamento
