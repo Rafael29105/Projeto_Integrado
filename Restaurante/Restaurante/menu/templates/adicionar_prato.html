@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Adicionar Prato - Restaurante Português
+{% endblock %}
+
+{% block content %}
+<main class="container my-5">
+    <!-- Título principal alinhado -->
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h2 class="text-center fw-bold text-primary mb-4">Adicionar Novo Prato</h2>
+        </div>
+    </div>
+
+    <!-- Card com o formulário centralizado -->
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-lg">
+                <div class="card-body p-4">
+                    <h5 class="card-title text-center text-secondary mb-4">Preencha os detalhes do prato</h5>
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-success btn-lg">Criar Prato</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Botão voltar centralizado -->
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-8 text-center">
+            <a href="{% url 'menu' %}" class="btn btn-outline-secondary btn-lg">
+                <i class="bi bi-arrow-left-circle"></i> Voltar ao Menu
+            </a>
+        </div>
+    </div>
+</main>
+{% endblock %}
+    
