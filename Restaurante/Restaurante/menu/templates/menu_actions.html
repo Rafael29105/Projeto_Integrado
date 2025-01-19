@@ -1,5 +1,0 @@
-{% if is_gerente %}
-    <a href="{% url 'editar_prato' prato.pk %}" class="btn btn-warning">Atualizar</a>
-    <a href="{% url 'excluir_prato' prato.pk %}" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja excluir este prato?');">Excluir</a>
-{% endif %}
-<a href="{% url 'adicionar_ao_carrinho' prato.id %}" class="btn btn-success">Adicionar ao Carrinho</a>
