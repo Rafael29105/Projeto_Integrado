@@ -8,7 +8,6 @@ urlpatterns = [
     path('', include('home.urls')),
     path('menu/', include('menu.urls')),
     path('autenticacao/', include('autenticacao.urls')),
-    path('carrinho/', include('carrinho.urls')),
 ]
 
 if settings.DEBUG:
