@@ -1,48 +1,18 @@
-{% extends 'base.html' %}
-
-{% block title %}Carrinho - Restaurante Português{% endblock %}
-
-{% block content %}
-<main class="container my-5">
-    <h2 class="text-center mb-4">Carrinho de Compras</h2>
-
-    {% if carrinho.itens.all %}
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Prato</th>
-                    <th>Quantidade</th>
-                    <th>Preço Total</th>
-                    <th>Ação</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for item in carrinho.itens.all %}
-                    <tr>
-                        <td>{{ item.prato.nome }}</td>
-                        <td>
-                            <form action="{% url 'atualizar_quantidade' item.id %}" method="post">
-                                {% csrf_token %}
-                                <input type="number" name="quantidade" value="{{ item.quantidade }}" min="1" class="form-control" style="width: 60px;" required>
-                                <button type="submit" class="btn btn-warning mt-2">Atualizar</button>
-                            </form>
-                        </td>
-                        <td>{{ item.total }}€</td>
-                        <td>
-                            <a href="{% url 'remover_do_carrinho' item.id %}" class="btn btn-danger">Remover</a>
-                        </td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-
-        <div class="text-center">
-            <a href="{% url 'metodos_pagamento' %}" class="btn btn-success">Finalizar Compra</a>
-        </div>
-    {% else %}
-        <div class="alert alert-warning" role="alert">
-            O seu carrinho está vazio. Adicione itens ao carrinho.
-        </div>
-    {% endif %}
-</main>
-{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrinho</title>
+</head>
+<body>
+    <h1>Itens no Carrinho</h1>
+    <ul>
+        {% for item in itens %}
+            <li>{{ item.nome }} - {{ item.quantidade }} x {{ item.preco }} = {{ item.total }}</li>
+        {% endfor %}
+    </ul>
+    <h3>Total: {{ total }}</h3>
+    <a href="{% url 'metodos_pagamento' %}">Finalizar Pedido</a>
+</body>
+</html>

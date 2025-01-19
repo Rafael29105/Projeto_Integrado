@@ -1,178 +1,25 @@
-{% extends 'base.html' %}
-
-{% block title %}Métodos de Pagamento - Restaurante Português{% endblock %}
-
-{% block content %}
-<main class="container my-5">
-    <h2 class="text-center mb-4">Escolha o Método de Pagamento</h2>
-
-    <div class="row justify-content-center">
-        <!-- Cartão de Crédito/Débito -->
-        <div class="col-md-4 mb-4">
-            <div class="card shadow-sm">
-                <div class="card-body text-center">
-                    <i class="fas fa-credit-card fa-3x mb-3"></i>
-                    <h5 class="card-title">Cartão de Crédito/Débito</h5>
-                    <p class="card-text">Pague com seu cartão de crédito ou débito de forma segura.</p>
-                    <input type="radio" name="metodo_pagamento" value="cartao_credito_debito" id="cartao_credito_debito" class="d-none" required>
-                    <button type="button" class="btn btn-outline-primary w-100" onclick="selecionarMetodo('cartao_credito_debito')">Escolher</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- MB Way -->
-        <div class="col-md-4 mb-4">
-            <div class="card shadow-sm">
-                <div class="card-body text-center">
-                    <i class="fas fa-mobile-alt fa-3x mb-3"></i>
-                    <h5 class="card-title">MB Way</h5>
-                    <p class="card-text">Pague instantaneamente através do seu telemóvel com o MB Way.</p>
-                    <input type="radio" name="metodo_pagamento" value="mb_way" id="mb_way" class="d-none" required>
-                    <button type="button" class="btn btn-outline-primary w-100" onclick="selecionarMetodo('mb_way')">Escolher</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- PayPal -->
-        <div class="col-md-4 mb-4">
-            <div class="card shadow-sm">
-                <div class="card-body text-center">
-                    <i class="fab fa-cc-paypal fa-3x mb-3"></i>
-                    <h5 class="card-title">PayPal</h5>
-                    <p class="card-text">Utilize sua conta do PayPal para uma transação segura e rápida.</p>
-                    <input type="radio" name="metodo_pagamento" value="paypal" id="paypal" class="d-none" required>
-                    <button type="button" class="btn btn-outline-primary w-100" onclick="selecionarMetodo('paypal')">Escolher</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Transferência Bancária -->
-        <div class="col-md-4 mb-4">
-            <div class="card shadow-sm">
-                <div class="card-body text-center">
-                    <i class="fas fa-university fa-3x mb-3"></i>
-                    <h5 class="card-title">Transferência Bancária</h5>
-                    <p class="card-text">Escolha esta opção para fazer uma transferência bancária.</p>
-                    <input type="radio" name="metodo_pagamento" value="transferencia" id="transferencia" class="d-none" required>
-                    <button type="button" class="btn btn-outline-primary w-100" onclick="selecionarMetodo('transferencia')">Escolher</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Formulário Cartão Crédito/Débito (oculto inicialmente) -->
-    <div id="form-cartao" style="display:none;">
-        <div class="card mt-5">
-            <div class="card-body">
-                <h5 class="card-title text-center">Preencha os Dados do Cartão</h5>
-                <form action="{% url 'pagamento_concluido' %}" method="post">
-                    {% csrf_token %}
-                    <div class="mb-3">
-                        <label for="numero_cartao" class="form-label">Número do Cartão</label>
-                        <input type="text" class="form-control" id="numero_cartao" name="numero_cartao" placeholder="XXXX XXXX XXXX XXXX" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="validade_cartao" class="form-label">Data de Validade</label>
-                        <input type="month" class="form-control" id="validade_cartao" name="validade_cartao" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="cvv_cartao" class="form-label">CVV</label>
-                        <input type="text" class="form-control" id="cvv_cartao" name="cvv_cartao" placeholder="XXX" required>
-                    </div>
-                    <div class="text-center">
-                        <button type="submit" class="btn btn-success">Confirmar Pagamento</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- Formulário MB Way (oculto inicialmente) -->
-    <div id="form-mb-way" style="display:none;">
-        <div class="card mt-5">
-            <div class="card-body">
-                <h5 class="card-title text-center">Número de Telemóvel MB Way</h5>
-                <form action="{% url 'pagamento_concluido' %}" method="post">
-                    {% csrf_token %}
-                    <div class="mb-3">
-                        <label for="numero_telemovel" class="form-label">Número de Telemóvel</label>
-                        <input type="text" class="form-control" id="numero_telemovel" name="numero_telemovel" placeholder="Ex: 912345678" required>
-                    </div>
-                    <div class="text-center">
-                        <button type="submit" class="btn btn-success">Confirmar Pagamento</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- Formulário PayPal (oculto inicialmente) -->
-    <div id="form-paypal" style="display:none;">
-        <div class="card mt-5">
-            <div class="card-body">
-                <h5 class="card-title text-center">Preencha o Email do PayPal</h5>
-                <form action="{% url 'pagamento_concluido' %}" method="post">
-                    {% csrf_token %}
-                    <div class="mb-3">
-                        <label for="email_paypal" class="form-label">Email do PayPal</label>
-                        <input type="email" class="form-control" id="email_paypal" name="email_paypal" placeholder="email@exemplo.com" required>
-                    </div>
-                    <div class="text-center">
-                        <button type="submit" class="btn btn-success">Confirmar Pagamento</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- Formulário Transferência Bancária (oculto inicialmente) -->
-    <div id="form-transferencia" style="display:none;">
-        <div class="card mt-5">
-            <div class="card-body">
-                <h5 class="card-title text-center">Preencha o IBAN ou NIB da Sua Conta Bancária</h5>
-                <form action="{% url 'pagamento_concluido' %}" method="post">
-                    {% csrf_token %}
-                    <div class="mb-3">
-                        <label for="iban" class="form-label">IBAN ou NIB</label>
-                        <input type="text" class="form-control" id="iban" name="iban" placeholder="Ex: PT50000201231234567890154" required>
-                    </div>
-                    <div class="text-center">
-                        <button type="submit" class="btn btn-success">Confirmar Pagamento</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</main>
-
-<script>
-    function selecionarMetodo(metodo) {
-        const radios = document.querySelectorAll('input[type="radio"]');
-        radios.forEach(radio => radio.checked = false);
-        
-        document.getElementById(metodo).checked = true;
-
-        document.getElementById('form-cartao').style.display = 'none';
-        document.getElementById('form-mb-way').style.display = 'none';
-        document.getElementById('form-paypal').style.display = 'none';
-        document.getElementById('form-transferencia').style.display = 'none';
-
-        const buttons = document.querySelectorAll('.btn-outline-primary');
-        buttons.forEach(button => button.classList.remove('active'));
-
-        const selectedButton = document.querySelector(`button[onclick="selecionarMetodo('${metodo}')"]`);
-        selectedButton.classList.add('active');
-
-        if (metodo === 'cartao_credito_debito') {
-            document.getElementById('form-cartao').style.display = 'block';
-        } else if (metodo === 'mb_way') {
-            document.getElementById('form-mb-way').style.display = 'block';
-        } else if (metodo === 'paypal') {
-            document.getElementById('form-paypal').style.display = 'block';
-        } else if (metodo === 'transferencia') {
-            document.getElementById('form-transferencia').style.display = 'block';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Métodos de Pagamento</title>
+    <script>
+        function selecionarMetodo(metodo) {
+            document.getElementById('metodo_pagamento').value = metodo;
+            document.getElementById('form_pagamento').submit();
         }
-    }
-</script>
-
-{% endblock %}
+    </script>
+</head>
+<body>
+    <h1>Escolha um Método de Pagamento</h1>
+    <form id="form_pagamento" method="POST">
+        {% csrf_token %}
+        <input type="hidden" id="metodo_pagamento" name="metodo_pagamento" value="">
+        <button type="button" onclick="selecionarMetodo('paypal')">PayPal</button>
+        <button type="button" onclick="selecionarMetodo('transferencia')">Transferência Bancária</button>
+        <button type="button" onclick="selecionarMetodo('mbway')">MB Way</button>
+        <button type="button" onclick="selecionarMetodo('cartao_credito')">Cartão de Crédito</button>
+    </form>
+</body>
+</html>

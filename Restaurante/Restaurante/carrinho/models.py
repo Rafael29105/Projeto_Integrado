@@ -1,23 +1,28 @@
-# carrinho/models.py
 from django.db import models
-from django.contrib.auth.models import User
-from menu.models import Prato  # Supondo que o modelo Prato está na app 'menu'
 
-class Carrinho(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='carrinho')
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f'Carrinho de {self.user.username}'
-
-class ItemCarrinho(models.Model):
-    carrinho = models.ForeignKey(Carrinho, related_name='itens', on_delete=models.CASCADE)
-    prato = models.ForeignKey(Prato, on_delete=models.CASCADE)
+class Item(models.Model):
+    nome = models.CharField(max_length=255)
+    preco = models.DecimalField(max_digits=10, decimal_places=2)
     quantidade = models.PositiveIntegerField(default=1)
 
-    @property
+    def __str__(self):
+        return self.nome
+
     def total(self):
-        return self.quantidade * self.prato.preco
+        return self.preco * self.quantidade
+
+class Pedido(models.Model):
+    METODOS_PAGAMENTO = [
+        ('paypal', 'PayPal'),
+        ('transferencia', 'Transferência Bancária'),
+        ('mbway', 'MB Way'),
+        ('cartao_credito', 'Cartão de Crédito'),
+    ]
+
+    itens = models.ManyToManyField(Item)
+    metodo_pagamento = models.CharField(max_length=20, choices=METODOS_PAGAMENTO)
+    data_pedido = models.DateTimeField(auto_now_add=True)
+    pago = models.BooleanField(default=False)
 
     def __str__(self):
-        return f'{self.quantidade} x {self.prato.nome}'
+        return f"Pedido #{self.id} - {'Pago' if self.pago else 'Pendente'}"
